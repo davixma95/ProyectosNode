@@ -5,9 +5,9 @@ const userRoutes = Router();
 
 userRoutes.get('/', controller.getUser);
 
-userRoutes.post('/', controller.postUser);
+userRoutes.post('/users', controller.postUser);
 
-userRoutes.delete('/', controller.deleteUser);
+userRoutes.delete('/users', controller.deleteUser);
 
 userRoutes.put('/:name', controller.updateUser);
 

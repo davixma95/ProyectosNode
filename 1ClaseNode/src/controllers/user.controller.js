@@ -32,32 +32,30 @@ controller.deleteUser= () => {
 }
 
 controller.postUser = ( ) => {
-    try {
-        // app.post('/users', (req,res) => {
-        const newUser = req.body;
-    
-        fs.readFile(filePath, (err, data) => {
-            let users = JSON.parse(data);
-            users.push(newUser);
-            fs.writeFile(filePath, JSON.stringify(users), (err) => {
-                console.log(JSON.stringify(users));
-                res.send('Agregado correctamente');
-            });
+    // app.post('/users', (req,res) => {
+    const newUser = req.body;
+
+    fs.readFile(filePath, (err, data) => {
+        let users = JSON.parse(data);
+        users.push(newUser);
+        fs.writeFile(filePath, JSON.stringify(users), (err) => {
+            console.log(JSON.stringify(users));
+            res.send('Agregado correctamente');
+            ;
         });
-        // });
-    } catch (error) {
-        console.error(error)
-    }
-}
+    // });
+})};
 
 controller.getUser = ( )=> {
     try {
-        app.get('/users', async (req,res) => {
+        // app.get('/users', async (req,res) => {
         const data = fs.readFile(filePath);
-        const jsonData = await JSON.parse(data);
+        console.log(data)
+        // const jsonData = await JSON.parse(data);
+        const jsonData = JSON.parse(data);
         res.send(jsonData);
     
-})
+// })
     } catch (error) {
         console.error(error)
     }
