@@ -1,15 +1,15 @@
 const { Router } = require('express');
-
+const controller = require('../controllers/user.controller');
 const userRoutes = Router();
 
 
-userRoutes.get('/users', controller.getUser);
+userRoutes.get('/', controller.getUser);
 
-userRoutes.post('/user', controller.postUser);
+userRoutes.post('/', controller.postUser);
 
-userRoutes.delete('/users', controller.deleteUser);
+userRoutes.delete('/', controller.deleteUser);
 
-userRoutes.put('/actualizo/:name', controller.updateUser);
+userRoutes.put('/:name', controller.updateUser);
 
 
 module.exports = userRoutes;

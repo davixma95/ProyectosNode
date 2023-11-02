@@ -1,14 +1,16 @@
 const controller = {};
+const fs = require('fs');
+const path = require('path');
+const filePath = path.resolve(__dirname, 'data', 'users.json');
 
 controller.updateUser =  () => {
     try{
-    const userIdToUpdate = req.params.id;
-    
-    const data = fs.readFile(filePath, 'utf-8');
-    const jsonData = JSON.parse(data);
-    
-    const updatedData = jsonData.map(user => 
-        user.id === userIdToUpdate ? { ...user, ...req.body } : user
+        const userIdToUpdate = req.params.id;
+        const data = fs.readFile(filePath, 'utf-8');
+        const jsonData = JSON.parse(data);
+        
+        const updatedData = jsonData.map(user => 
+            user.id === userIdToUpdate ? { ...user, ...req.body } : user
         );
         fs.writeFile(filePath, JSON.stringify(updatedData, null, 2));
         res.send();
@@ -21,9 +23,9 @@ controller.updateUser =  () => {
 controller.deleteUser= () => {
     try{
         const data = fs.readFile(filePath);
-    const jsonData = JSON.parse(data);
-    fs.writeFile(filePath, JSON.stringify(jsonData));
-    res.send();
+        const jsonData = JSON.parse(data);
+        fs.writeFile(filePath, JSON.stringify(jsonData));
+        res.send();
     }catch(mensajeError){
         console.error(mensajeError)
     }
@@ -31,18 +33,18 @@ controller.deleteUser= () => {
 
 controller.postUser = ( ) => {
     try {
-        app.post('/user', (req,res) => {
-            const newUser = req.body;
-        
-            fs.readFile(filePath, (err, data) => {
-                let users = JSON.parse(data);
-                users.push(newUser);
-                fs.writeFile(filePath, JSON.stringify(users), (err) => {
-                    console.log(JSON.stringify(users)); // TODO EL JSON
-                    res.send('Agregado correctamente');
-                });
+        // app.post('/users', (req,res) => {
+        const newUser = req.body;
+    
+        fs.readFile(filePath, (err, data) => {
+            let users = JSON.parse(data);
+            users.push(newUser);
+            fs.writeFile(filePath, JSON.stringify(users), (err) => {
+                console.log(JSON.stringify(users));
+                res.send('Agregado correctamente');
             });
         });
+        // });
     } catch (error) {
         console.error(error)
     }

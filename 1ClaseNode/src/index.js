@@ -2,49 +2,50 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const PORT = 8000;
-const fs = require('fs');
+const userRoutes = require('./routes/user.routes');
 app.use(express.json());
 
+app.use(express.json());
+app.use('/api/users',userRoutes);
+
 app.listen(PORT, () => {
-    console.log('Servidor levantado: ', PORT);
+  console.log('Servidor levantado: ', PORT);
 });
 
-const filePath = path.resolve(__dirname, 'data', 'users.json');
+// app.get('/', (request, response) => {
+//     // console.log(request)
+//     response.send({ message: 'Hola' });
+// });
 
-app.get('/', (request, response) => {
-    // console.log(request)
-    response.send({ message: 'Hola' });
-});
+// app.get('/users', (request, response) => {
+//     fs.readFile(filePath, (err, data) => {
+//         if (err) {
+//             //Informar error
+//         }
+//         const jsonData = JSON.parse(data);
+//         response.send(jsonData);
+//     });
+// });
 
-app.get('/users', (request, response) => {
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            //Informar error
-        }
-        const jsonData = JSON.parse(data);
-        response.send(jsonData);
-    });
-});
+// app.get('/users/:userId', (request, response) => {
+//     const userId = request.params.userId;
 
-app.get('/users/:userId', (request, response) => {
-    const userId = request.params.userId;
+//     fs.readFile(filePath, (err, data) => {
+//         if (err) {
+//             response.status(500).send('Error al leer el archivo');
+//             return;
+//         }
 
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            response.status(500).send('Error al leer el archivo');
-            return;
-        }
+//         const jsonData = JSON.parse(data);
+//         const user = jsonData.find(user => user.userId === userId);
 
-        const jsonData = JSON.parse(data);
-        const user = jsonData.find(user => user.userId === userId);
-
-        if (user) {
-            response.send(user);
-        } else {
-            response.status(404).send('Usuario no encontrado');
-        }
-    });
-});
+//         if (user) {
+//             response.send(user);
+//         } else {
+//             response.status(404).send('Usuario no encontrado');
+//         }
+//     });
+// });
 
 
 // app.use(express.json());//Los datos que llegan en json lo pasa a js para que lo pueda leer-> esto es un middleware, esta en medio del cliente y servidor
