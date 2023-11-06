@@ -1,13 +1,18 @@
 const express = require('express');
 const app = express();
-const cors = require('cors');
-
-// Rutas
-
-// Middlewares para cliente
-app.use(cors());
+const mongoose = require('mongoose');
+const databaseConnect = require('../database/database');
+require('dotenv').config();
+const userRoutes = require('./routes/user.routes')
 app.use(express.json());
+app.use(userRoutes);
 
-// Uso de rutas
+app.listen(process.env.PORT, () => {
+  console.log('Servidor levantado: ', process.env.PORT);
+});
+databaseConnect();
 
-app.listen(3000, () => console.log('Servidor en ejecución en el puerto 3000'));
+// app.get('/', (req, res) => {
+//     // console.log(request)
+//     res.send({ message: 'Hola' });
+// });

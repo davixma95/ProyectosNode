@@ -1,15 +1,15 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const PORT = 8000;
+// const PORT = 8000;
 const userRoutes = require('./routes/user.routes');
-app.use(express.json());
+require('dotenv').config();
 
 app.use(express.json());
 app.use('/api/users',userRoutes);
 
-app.listen(PORT, () => {
-  console.log('Servidor levantado: ', PORT);
+app.listen(process.env.PORT, () => {
+  console.log('Servidor levantado: ', process.env.PORT);
 });
 
 // app.get('/', (request, response) => {
