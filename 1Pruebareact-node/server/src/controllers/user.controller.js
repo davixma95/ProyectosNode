@@ -1,7 +1,7 @@
 const userModel = require("../schemes/user.scheme");
 
+const bcrypt = require('bcrypt');
 const controller = {};
-
 
 controller.getAllUsers = async (req, res) => {
     try {
@@ -48,15 +48,19 @@ controller.deleteUser = async (req, res) => {
 
 controller.createUser = async(req,res) => {
     const { username, password, email } = req.body;
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
     const newUser = new userModel({
         username,
-        password,
+        password: hashedPassword,
         email,
     })
     try{  
         await newUser.save();
+        res.status(200).json({ message: 'User created successfully' });
     } catch(error){
         console.error('El error es ',error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
 
