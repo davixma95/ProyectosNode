@@ -8,6 +8,9 @@ const databaseConnect = async () => {
   catch (error) {
     console.log(error)
   }
+  finally{
+    await mongoose.connection.close();
+  }
 }
 
 module.exports = databaseConnect;

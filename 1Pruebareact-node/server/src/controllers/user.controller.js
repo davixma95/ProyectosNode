@@ -3,13 +3,19 @@ const userModel = require("../schemes/user.scheme");
 const controller = {};
 
 controller.createUser = (req,res) => {
-    const { username, password, email } = req.body;
-    const newUser = new userModel({
+    try{
+        const { username, password, email } = req.body;
+        const newUser = new userModel({
         username,
         password,
         email,
     })
-    newUser.save();
+        newUser.save();
+   
+
+    } catch(error){
+        console.error('El error es ',error)
+    }
 };
 
 module.exports = controller;
