@@ -13,6 +13,38 @@ controller.getAllUsers = async (req, res) => {
     }
 }
 
+controller.updateUser = async (req, res) => {
+    try {
+        const updatedUser = await userModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedUser) {
+            return res.status(404).send('Usuario no encontrado');
+        } else{
+            res.status(200).send(updatedUser);
+
+        }
+    } catch(error) {
+        console.error(error);
+        res.status(500).send('Error al actualizar el usuario');
+    }
+}
+
+
+controller.deleteUser = async (req, res) => {
+    try {
+        const deleteUser = await userModel.findByIdAndDelete(req.params.id, req.body, { new: true });
+        if (!deleteUser) {
+            return res.status(404).send('Usuario no encontrado');
+        } else{
+            res.status(200).send(deleteUser);
+
+        }
+    } catch(error) {
+        console.error(error);
+        res.status(500).send('Error al actualizar el usuario');
+    }
+}
+
+
 
 controller.createUser = async(req,res) => {
     const { username, password, email } = req.body;
