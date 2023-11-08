@@ -64,5 +64,37 @@ controller.createUser = async(req,res) => {
     }
 };
 
+controller.login = async (req,res) => {
+    try{
+        const { email, password} = req.body;
+        const userFound = await userModel.findOne({ email });
+        if(!userFound){
+            return res.status(400).json({message:'The user was not found'})
+        }
+
+        const isMatch = bcrypt.compare(password, userFound.password);
+        if(!isMatch){
+            return res.status(400).json({message:'The user was not found'});
+        }
+
+        const token = await createAccessToken({
+            id:userFound._id,
+            username: userFound.username
+        })
+
+        res.cookie('token', token);
+
+        res.json({
+            id:userFound._id,
+            username: userFound.username,
+            email: userFound.email
+        })
+
+    }catch(error){
+        return res.status(500).json({message:error.message})
+    }
+}
+
+
 module.exports = controller;
 
